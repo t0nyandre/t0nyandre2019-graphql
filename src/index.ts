@@ -48,7 +48,7 @@ async function startServer() {
     session({
       cookie: {
         httpOnly: true,
-        maxAge: 60 * 60 * 24 * 7, // 7 days
+        maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
         secure: NODE_ENV === "production",
       },
       name: "yourId",

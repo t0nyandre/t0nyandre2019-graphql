@@ -54,6 +54,19 @@ export default {
         user,
       };
     },
+    logout: async (_: any, __: any, { req, res }: any) => {
+      if (!req.session.userId) {
+        return notLoggedInError;
+      }
+
+      req.session.destroy();
+      await res.clearCookie("yourId");
+
+      return {
+        errors: undefined,
+        user: undefined,
+      };
+    },
     verify: async (_: any, args: any, { req }: any) => {
       let decoded: any;
 

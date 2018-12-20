@@ -26,4 +26,5 @@ type Query {
 type Mutation {
   register(input: RegisterInput!): UserResponse!
   verify(input: VerifyInput!): UserResponse!
+  logout: UserResponse!
 }
