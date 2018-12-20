@@ -4,7 +4,7 @@ import { mergeGraphQLSchemas, mergeResolvers } from "@graphql-modules/epoxy";
 
 const typeDefs = mergeGraphQLSchemas(loadSchemaFiles(__dirname + "/schema/"));
 const resolvers = mergeResolvers(loadResolversFiles(__dirname + "/resolvers/"));
-export const Schema = makeExecutableSchema({
+export const schema = makeExecutableSchema({
   resolvers,
   typeDefs,
 });

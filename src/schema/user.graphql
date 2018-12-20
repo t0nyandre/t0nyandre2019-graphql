@@ -1,3 +1,29 @@
+enum Roles {
+  Admin
+  Pro
+  User
+}
+
+type User {
+  id: ID!
+  username: String!
+  role: Roles!
+  email: String!
+  confirmed: Boolean!
+  createdAt: String
+  updatedAt: String
+}
+
+type UserResponse {
+  user: User
+  errors: [Error!]
+}
+
 type Query {
-  hello: String
+  me: UserResponse!
+}
+
+type Mutation {
+  register(input: RegisterInput!): UserResponse!
+  verify(input: VerifyInput!): UserResponse!
 }

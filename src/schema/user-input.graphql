@@ -1,0 +1,9 @@
+input RegisterInput {
+  username: String!
+  email: String!
+  password: String!
+}
+
+input VerifyInput {
+  hashedId: String!
+}
