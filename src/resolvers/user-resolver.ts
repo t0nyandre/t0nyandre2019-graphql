@@ -2,13 +2,16 @@ import { User } from "../entity/User";
 import {
   verificationEmailNotSentError,
   invalidVerificationToken,
+  invalidLoginError,
   userNotExistError,
   notLoggedInError,
+  accountNotVerifiedError,
   accountAlreadyVerifiedError,
 } from "../error-messages";
 import { verifyAccountMail } from "../mails/verifyAccountMail";
 import { transporter } from "../../config/nodemailer";
 import { getConnection } from "typeorm";
+import * as argon2 from "argon2";
 import * as jwt from "jsonwebtoken";
 // tslint:disable-next-line
 require("dotenv").config();
@@ -97,6 +100,27 @@ export default {
       return {
         errors: undefined,
         user: undefined,
+      };
+    },
+    login: async (_: any, args: any, { req }: any) => {
+      const user = await User.findOne({ email: args.input.email });
+      if (!user) {
+        return invalidLoginError;
+      }
+      const valid = await argon2.verify(user.password, args.input.password);
+      if (!valid) {
+        return invalidLoginError;
+      }
+
+      if (!user.confirmed) {
+        return accountNotVerifiedError;
+      }
+
+      req.session.userId = user.id;
+
+      return {
+        errors: undefined,
+        user,
       };
     },
   },

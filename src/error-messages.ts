@@ -23,6 +23,16 @@ export const notLoggedInError = {
   user: undefined,
 };
 
+export const invalidLoginError = {
+  errors: [
+    {
+      message: "password invalid",
+      path: "login",
+    },
+  ],
+  user: undefined,
+};
+
 export const userNotExistError = {
   errors: [
     {
