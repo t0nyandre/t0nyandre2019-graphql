@@ -14,6 +14,7 @@
       "@types/node": "^10.12.18",
       "@types/nodemailer": "^4.6.5",
       "dotenv": "^6.2.0",
+      "nodemon": "^1.18.9",
       "ts-node": "7.0.1",
       "tslint-eslint-rules": "^5.4.0",
       "typescript": "3.2.2"
@@ -37,6 +38,6 @@
       "typeorm": "0.2.9"
    },
    "scripts": {
-      "start": "ts-node src/index.ts"
+      "start": "nodemon --exec ts-node src/index.ts"
    }
 }

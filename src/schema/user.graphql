@@ -1,3 +1,5 @@
+scalar DateTime
+
 enum Roles {
   Admin
   Pro
@@ -10,22 +12,17 @@ type User {
   role: Roles!
   email: String!
   confirmed: Boolean!
-  createdAt: String
-  updatedAt: String
-}
-
-type UserResponse {
-  user: User
-  errors: [Error!]
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type Query {
-  me: UserResponse!
+  me: User
 }
 
 type Mutation {
-  register(input: RegisterInput!): UserResponse!
-  verify(input: VerifyInput!): UserResponse!
-  logout: UserResponse!
-  login(input: LoginInput!): UserResponse!
+  register(input: RegisterInput!): User
+  verify(input: VerifyInput!): User
+  logout: Boolean
+  login(input: LoginInput!): User
 }

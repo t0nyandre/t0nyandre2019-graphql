@@ -1,12 +1,14 @@
-import { User } from "../entity/User";
+import { User } from "../models/user";
 import {
   verificationEmailNotSentError,
-  invalidVerificationToken,
+  invalidVerificationTokenError,
   invalidLoginError,
   userNotExistError,
   notLoggedInError,
   accountNotVerifiedError,
   accountAlreadyVerifiedError,
+  usernameTakenError,
+  emailExistError,
 } from "../error-messages";
 import { verifyAccountMail } from "../mails/verifyAccountMail";
 import { transporter } from "../../config/nodemailer";
@@ -19,14 +21,14 @@ require("dotenv").config();
 export default {
   Query: {
     me: async (_: any, __: any, { req }: any) => {
-      if (!req.session.userId) {
-        return notLoggedInError;
+      const { userId } = req.session;
+      let user: User | undefined;
+      if (userId) {
+        user = await User.findOne(userId);
+      } else {
+        user = undefined;
       }
-
-      return {
-        user: await User.findOne(req.session.userId),
-        errors: undefined,
-      };
+      return user;
     },
   },
   Mutation: {
@@ -35,7 +37,17 @@ export default {
         ...args.input,
       });
 
-      user = await User.save(user);
+      try {
+        user = await User.save(user);
+      } catch (error) {
+        if (error.detail.search(/username/gi) !== -1) {
+          return usernameTakenError;
+        } else if (error.detail.search(/email/gi) !== -1) {
+          return emailExistError;
+        } else {
+          return error;
+        }
+      }
 
       const hashedId = jwt.sign({
         data: user.id,
@@ -49,13 +61,10 @@ export default {
       try {
         await transporter.sendMail(verifyAccountMail(user.email, hashedId));
       } catch (error) {
-        return verificationEmailNotSentError(user);
+        return verificationEmailNotSentError;
       }
 
-      return {
-        errors: undefined,
-        user,
-      };
+      return user;
     },
     logout: async (_: any, __: any, { req, res }: any) => {
       if (!req.session.userId) {
@@ -65,10 +74,7 @@ export default {
       req.session.destroy();
       await res.clearCookie("yourId");
 
-      return {
-        errors: undefined,
-        user: undefined,
-      };
+      return true;
     },
     verify: async (_: any, args: any, { req }: any) => {
       let decoded: any;
@@ -76,7 +82,7 @@ export default {
       try {
         decoded = await jwt.verify(args.input.hashedId, process.env.JWT_SECRET as string);
       } catch (error) {
-        return invalidVerificationToken;
+        return invalidVerificationTokenError;
       }
 
       const user = await User.findOne(decoded.data);
@@ -97,31 +103,27 @@ export default {
         .execute();
 
       req.session.userId = user.id;
-      return {
-        errors: undefined,
-        user: undefined,
-      };
+      return user;
     },
     login: async (_: any, args: any, { req }: any) => {
       const user = await User.findOne({ email: args.input.email });
+
       if (!user) {
-        return invalidLoginError;
+        throw invalidLoginError();
       }
+
       const valid = await argon2.verify(user.password, args.input.password);
       if (!valid) {
-        return invalidLoginError;
+        throw invalidLoginError();
       }
 
       if (!user.confirmed) {
-        return accountNotVerifiedError;
+        throw accountNotVerifiedError();
       }
 
       req.session.userId = user.id;
-
-      return {
-        errors: undefined,
-        user,
-      };
+      req.session.userRole = user.role;
+      return user;
     },
   },
 };

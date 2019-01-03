@@ -6,7 +6,7 @@ import * as cors from "cors";
 import { ApolloServer } from "apollo-server-express";
 import { createConnection } from "typeorm";
 import { schema } from "./createSchema";
-import { User } from "./entity/User";
+import { User } from "./models/user";
 import { redis } from "../config/redis";
 // tslint:disable-next-line
 require("dotenv").config();
@@ -42,8 +42,8 @@ async function startServer() {
 
   app.use(
     cors({
+      origin: ["http://localhost:4000", "http://localhost:3000"],
       credentials: true,
-      origin: ["http://localhost:4000", "http://localhost:4001"],
     }),
     session({
       cookie: {
