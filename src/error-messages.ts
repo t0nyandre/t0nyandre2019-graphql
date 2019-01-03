@@ -23,6 +23,10 @@ export const usernameTakenError = () => {
   return new ApolloError("username already taken", "USERNAME_TAKEN");
 };
 
+export const alreadyLoggedInError = () => {
+  return new ApolloError("you are already logged in", "ALREADY_LOGGED_IN");
+};
+
 export const emailExistError = () => {
   return new ApolloError("email already exist in our database", "EMAIL_EXIST");
 };

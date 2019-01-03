@@ -10,9 +10,10 @@ import {
 } from "typeorm";
 
 export enum Roles {
-  Admin,
-  Pro,
-  User,
+  ADMIN,
+  PRO,
+  WRITER,
+  USER,
 }
 
 @Entity("users")
@@ -23,7 +24,7 @@ export class User extends BaseEntity {
   @Column("varchar", { length: 160, unique: true })
   public username: string;
 
-  @Column({ type: "enum", enum: Roles, default: "User" })
+  @Column({ type: "enum", enum: Roles, default: "USER" })
   public role: Roles;
 
   @Column("varchar", { length: 255, unique: true })

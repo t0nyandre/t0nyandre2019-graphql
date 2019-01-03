@@ -4,7 +4,6 @@ import {
   invalidVerificationTokenError,
   invalidLoginError,
   userNotExistError,
-  notLoggedInError,
   accountNotVerifiedError,
   accountAlreadyVerifiedError,
   usernameTakenError,
@@ -15,20 +14,16 @@ import { transporter } from "../../config/nodemailer";
 import { getConnection } from "typeorm";
 import * as argon2 from "argon2";
 import * as jwt from "jsonwebtoken";
+import * as Auth from "../auth";
 // tslint:disable-next-line
 require("dotenv").config();
 
 export default {
   Query: {
     me: async (_: any, __: any, { req }: any) => {
-      const { userId } = req.session;
-      let user: User | undefined;
-      if (userId) {
-        user = await User.findOne(userId);
-      } else {
-        user = undefined;
-      }
-      return user;
+      Auth.checkSignedIn(req);
+
+      return User.findOne(req.session.userId);
     },
   },
   Mutation: {
@@ -41,9 +36,9 @@ export default {
         user = await User.save(user);
       } catch (error) {
         if (error.detail.search(/username/gi) !== -1) {
-          return usernameTakenError;
+          throw usernameTakenError();
         } else if (error.detail.search(/email/gi) !== -1) {
-          return emailExistError;
+          throw emailExistError();
         } else {
           return error;
         }
@@ -61,18 +56,16 @@ export default {
       try {
         await transporter.sendMail(verifyAccountMail(user.email, hashedId));
       } catch (error) {
-        return verificationEmailNotSentError;
+        throw verificationEmailNotSentError();
       }
 
       return user;
     },
     logout: async (_: any, __: any, { req, res }: any) => {
-      if (!req.session.userId) {
-        return notLoggedInError;
-      }
+      Auth.checkSignedIn(req);
 
       req.session.destroy();
-      await res.clearCookie("yourId");
+      await res.clearCookie(process.env.SESSION_NAME);
 
       return true;
     },
@@ -103,11 +96,13 @@ export default {
         .execute();
 
       req.session.userId = user.id;
+      req.session.userRole = user.role;
       return user;
     },
     login: async (_: any, args: any, { req }: any) => {
-      const user = await User.findOne({ email: args.input.email });
+      Auth.checkSignedOut(req);
 
+      const user = await User.findOne({ email: args.input.email });
       if (!user) {
         throw invalidLoginError();
       }

@@ -13,6 +13,7 @@ require("dotenv").config();
 
 const {
   SESSION_SECRET,
+  SESSION_NAME,
   NODE_ENV,
   PG_HOST,
   PG_PORT,
@@ -51,7 +52,7 @@ async function startServer() {
         maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
         secure: NODE_ENV === "production",
       },
-      name: "yourId",
+      name: SESSION_NAME,
       resave: false,
       saveUninitialized: false,
       secret: SESSION_SECRET as string,
