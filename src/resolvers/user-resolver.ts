@@ -11,7 +11,6 @@ import { transporter } from "../../config/nodemailer";
 import { getConnection } from "typeorm";
 import * as argon2 from "argon2";
 import * as jwt from "jsonwebtoken";
-import * as Auth from "../auth";
 import * as Joi from "joi";
 import { registerValidation } from "../validations";
 // tslint:disable-next-line
@@ -20,15 +19,11 @@ require("dotenv").config();
 export default {
   Query: {
     me: (_: any, __: any, { req }: any) => {
-      Auth.checkSignedIn(req);
-
       return User.findOne(req.session.userId);
     },
   },
   Mutation: {
-    register: async (_: any, args: any, { req }: any) => {
-      Auth.checkSignedOut(req);
-
+    register: async (_: any, args: any) => {
       const { username, email, password } = args.input;
 
       await Joi.validate({ username, email, password }, registerValidation, { abortEarly: false });
@@ -51,8 +46,6 @@ export default {
       return user;
     },
     logout: async (_: any, __: any, { req, res }: any) => {
-      Auth.checkSignedIn(req);
-
       req.session.destroy();
       await res.clearCookie(process.env.SESSION_NAME);
 
@@ -89,8 +82,6 @@ export default {
       return user;
     },
     login: async (_: any, args: any, { req }: any) => {
-      Auth.checkSignedOut(req);
-
       const user = await User.findOne({ email: args.input.email });
       if (!user) {
         throw invalidLoginError();

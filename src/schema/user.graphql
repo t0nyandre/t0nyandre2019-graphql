@@ -1,5 +1,8 @@
 scalar DateTime
 
+directive @isAuth on FIELD_DEFINITION
+directive @notAuth on FIELD_DEFINITION
+
 enum Roles {
   ADMIN
   PRO
@@ -18,12 +21,12 @@ type User {
 }
 
 type Query {
-  me: User
+  me: User @isAuth
 }
 
 type Mutation {
-  register(input: RegisterInput!): User
+  register(input: RegisterInput!): User @notAuth
   verify(input: VerifyInput!): User
-  logout: Boolean
-  login(input: LoginInput!): User
+  logout: Boolean @isAuth
+  login(input: LoginInput!): User @notAuth
 }
