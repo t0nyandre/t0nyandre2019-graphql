@@ -5,7 +5,7 @@ import * as connectRedis from "connect-redis";
 import * as cors from "cors";
 import { ApolloServer } from "apollo-server-express";
 import { createConnection } from "typeorm";
-import { schema } from "./createSchema";
+import { schema } from "./createSchema";
 import { User } from "./models/user";
 import { redis } from "../config/redis";
 // tslint:disable-next-line
@@ -34,9 +34,7 @@ async function startServer() {
     synchronize: true,
     dropSchema: false,
     logging: false,
-    entities: [
-       User,
-    ],
+    entities: [User],
   } as any);
 
   const app = express();
@@ -78,8 +76,9 @@ async function startServer() {
   const port = 4000;
 
   app.listen({ port }, () =>
-    // tslint:disable-next-line
-    console.log(`🚀 Server ready at http://localhost:${port}${server.graphqlPath}`),
+    console.log(
+      `🚀 Server ready at http://localhost:${port}${server.graphqlPath}`,
+    ),
   );
 }
 

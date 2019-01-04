@@ -8,6 +8,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import * as yup from "yup";
+import { username, password, email } from "./validations/user";
 
 export enum Roles {
   ADMIN,
@@ -56,3 +58,9 @@ export class User extends BaseEntity {
     }
   }
 }
+
+export const registerValidation = yup.object().shape({
+  username,
+  email,
+  password,
+});

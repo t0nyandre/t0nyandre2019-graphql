@@ -1,4 +1,4 @@
-import { User } from "../models/user";
+import { User, registerValidation } from "../models/user";
 import {
   invalidVerificationTokenError,
   invalidLoginError,
@@ -11,8 +11,6 @@ import { transporter } from "../../config/nodemailer";
 import { getConnection } from "typeorm";
 import * as argon2 from "argon2";
 import * as jwt from "jsonwebtoken";
-import * as Joi from "joi";
-import { registerValidation } from "../validations";
 // tslint:disable-next-line
 require("dotenv").config();
 
@@ -26,7 +24,12 @@ export default {
     register: async (_: any, args: any) => {
       const { username, email, password } = args.input;
 
-      await Joi.validate({ username, email, password }, registerValidation, { abortEarly: false });
+      await registerValidation.validate(
+        { username, email, password },
+        {
+          abortEarly: false,
+        },
+      );
 
       let user = User.create({ username, email, password });
 
@@ -36,7 +39,8 @@ export default {
         return error;
       }
 
-      const hashedId = jwt.sign({ data: user.id },
+      const hashedId = jwt.sign(
+        { data: user.id },
         process.env.JWT_SECRET as string,
         { expiresIn: "2 days" },
       );
@@ -55,7 +59,8 @@ export default {
       let decoded: any;
 
       try {
-        decoded = await jwt.verify(args.input.hashedId, process.env.JWT_SECRET as string);
+        decoded = await jwt.verify(args.input.hashedId, process.env
+          .JWT_SECRET as string);
       } catch (error) {
         return invalidVerificationTokenError;
       }
@@ -63,11 +68,11 @@ export default {
       const user = await User.findOne(decoded.data);
 
       if (!user) {
-          return userNotExistError;
+        return userNotExistError;
       }
 
       if (user.confirmed) {
-          return accountAlreadyVerifiedError;
+        return accountAlreadyVerifiedError;
       }
 
       await getConnection()
