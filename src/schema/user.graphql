@@ -1,9 +1,10 @@
 scalar DateTime
 
 enum Roles {
-  Admin
-  Pro
-  User
+  ADMIN
+  PRO
+  WRITER
+  USER
 }
 
 type User {

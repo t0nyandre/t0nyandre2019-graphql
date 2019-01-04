@@ -1,13 +1,10 @@
 import { User } from "../models/user";
 import {
-  verificationEmailNotSentError,
   invalidVerificationTokenError,
   invalidLoginError,
   userNotExistError,
   accountNotVerifiedError,
   accountAlreadyVerifiedError,
-  usernameTakenError,
-  emailExistError,
 } from "../error-messages";
 import { verifyAccountMail } from "../mails/verifyAccountMail";
 import { transporter } from "../../config/nodemailer";
@@ -15,49 +12,41 @@ import { getConnection } from "typeorm";
 import * as argon2 from "argon2";
 import * as jwt from "jsonwebtoken";
 import * as Auth from "../auth";
+import * as Joi from "joi";
+import { registerValidation } from "../validations";
 // tslint:disable-next-line
 require("dotenv").config();
 
 export default {
   Query: {
-    me: async (_: any, __: any, { req }: any) => {
+    me: (_: any, __: any, { req }: any) => {
       Auth.checkSignedIn(req);
 
       return User.findOne(req.session.userId);
     },
   },
   Mutation: {
-    register: async (_: any, args: any) => {
-      let user = User.create({
-        ...args.input,
-      });
+    register: async (_: any, args: any, { req }: any) => {
+      Auth.checkSignedOut(req);
+
+      const { username, email, password } = args.input;
+
+      await Joi.validate({ username, email, password }, registerValidation, { abortEarly: false });
+
+      let user = User.create({ username, email, password });
 
       try {
         user = await User.save(user);
       } catch (error) {
-        if (error.detail.search(/username/gi) !== -1) {
-          throw usernameTakenError();
-        } else if (error.detail.search(/email/gi) !== -1) {
-          throw emailExistError();
-        } else {
-          return error;
-        }
+        return error;
       }
 
-      const hashedId = jwt.sign({
-        data: user.id,
-      },
+      const hashedId = jwt.sign({ data: user.id },
         process.env.JWT_SECRET as string,
-        {
-          expiresIn: "2 days",
-        },
+        { expiresIn: "2 days" },
       );
 
-      try {
-        await transporter.sendMail(verifyAccountMail(user.email, hashedId));
-      } catch (error) {
-        throw verificationEmailNotSentError();
-      }
+      transporter.sendMail(verifyAccountMail(user.email, hashedId));
 
       return user;
     },
