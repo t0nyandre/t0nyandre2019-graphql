@@ -7,6 +7,8 @@ import { ApolloServer } from "apollo-server-express";
 import { createConnection } from "typeorm";
 import { schema } from "./createSchema";
 import { User } from "./models/user";
+import { Post } from "./models/post";
+import { PostCategory } from "./models/post-category";
 import { redis } from "../config/redis";
 // tslint:disable-next-line
 require("dotenv").config();
@@ -34,7 +36,7 @@ async function startServer() {
     synchronize: true,
     dropSchema: false,
     logging: false,
-    entities: [User],
+    entities: [User, Post, PostCategory],
   } as any);
 
   const app = express();

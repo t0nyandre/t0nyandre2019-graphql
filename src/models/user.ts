@@ -7,9 +7,11 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
+  OneToMany,
 } from "typeorm";
 import * as yup from "yup";
 import { username, password, email } from "./validations/user";
+import { Post } from "./post";
 
 export enum Roles {
   ADMIN,
@@ -20,32 +22,31 @@ export enum Roles {
 
 @Entity("users")
 export class User extends BaseEntity {
-  @PrimaryGeneratedColumn("uuid")
-  public id: string;
+  @PrimaryGeneratedColumn("uuid") id: string;
 
-  @Column("varchar", { length: 160, unique: true })
-  public username: string;
+  @Column("varchar", { length: 160, unique: true }) username: string;
 
-  @Column({ type: "enum", enum: Roles, default: "USER" })
-  public role: Roles;
+  @Column({ type: "enum", enum: Roles, default: "USER" }) role: Roles;
 
-  @Column("varchar", { length: 255, unique: true })
-  public email: string;
+  @Column("varchar", { length: 255, unique: true }) email: string;
 
-  @Column("text")
-  public password: string;
+  @Column("text") password: string;
 
-  @Column("boolean", { default: false })
-  public confirmed: boolean;
+  @Column("text") about: string;
 
-  @CreateDateColumn()
-  public createdAt: Date;
+  @Column("varchar", { length: 255, nullable: true }) avatar: string;
 
-  @UpdateDateColumn()
-  public updatedAt: Date;
+  @Column("boolean", { default: false }) confirmed: boolean;
+
+  @OneToMany(() => Post, post => post.author)
+  posts: Post[];
+
+  @CreateDateColumn() createdAt: Date;
+
+  @UpdateDateColumn() updatedAt: Date;
 
   @BeforeInsert()
-  public async hashPasswordBeforeInsert() {
+  async hashPasswordBeforeInsert() {
     try {
       this.password = await argon2.hash(this.password, {
         type: argon2.argon2d,
