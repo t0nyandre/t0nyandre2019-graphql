@@ -14,6 +14,7 @@
       "@types/node": "^10.12.18",
       "@types/nodemailer": "^4.6.5",
       "@types/yup": "^0.26.4",
+      "@types/sindresorhus__slugify": "^0.6.0",
       "dotenv": "^6.2.0",
       "nodemon": "^1.18.9",
       "ts-node": "7.0.1",
@@ -24,6 +25,7 @@
    "dependencies": {
       "@graphql-modules/epoxy": "^0.2.17",
       "@graphql-modules/sonar": "^0.2.17",
+      "@sindresorhus/slugify": "^0.7.0",
       "apollo-server-express": "^2.3.1",
       "argon2": "^0.20.0",
       "connect-redis": "^3.4.0",
