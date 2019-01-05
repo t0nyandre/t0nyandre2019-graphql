@@ -23,4 +23,16 @@ export const content = yup
   .trim()
   .notRequired();
 
+export const cat_icon = yup
+  .string()
+  .trim()
+  .max(200)
+  .required("image for an icon is required");
+
+export const cat_name = yup
+  .string()
+  .trim()
+  .max(150)
+  .required("category name is required");
+
 // TODO: add validation on enums

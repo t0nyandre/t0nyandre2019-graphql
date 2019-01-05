@@ -8,7 +8,6 @@ import {
 } from "../error-messages";
 import { verifyAccountMail } from "../mails/verifyAccountMail";
 import { transporter } from "../../config/nodemailer";
-import { getConnection } from "typeorm";
 import * as argon2 from "argon2";
 import * as jwt from "jsonwebtoken";
 // tslint:disable-next-line
@@ -75,15 +74,12 @@ export default {
         return accountAlreadyVerifiedError;
       }
 
-      await getConnection()
-        .createQueryBuilder()
-        .update(User)
-        .set({ confirmed: true })
-        .where("id = :id", { id: decoded.data })
-        .execute();
+      user.confirmed = true;
+      await User.save(user);
 
       req.session.userId = user.id;
       req.session.userRole = user.role;
+
       return user;
     },
     login: async (_: any, args: any, { req }: any) => {

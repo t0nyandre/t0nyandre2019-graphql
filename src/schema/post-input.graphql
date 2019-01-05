@@ -1,0 +1,14 @@
+input PostInput {
+    image: String
+    title: String!
+    description: String!
+    content: String
+    status: PostStatus
+    comment_status: CommentStatus
+    category: String!
+}
+
+input CategoryInput {
+    icon: String!
+    name: String!
+}

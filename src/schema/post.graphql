@@ -1,0 +1,41 @@
+enum PostStatus {
+  PUBLISHED,
+  DRAFT,
+  ARCHIVED,
+}
+
+enum CommentStatus {
+  OPEN,
+  CLOSED,
+}
+
+type PostCategory {
+    id: ID!
+    icon: String!
+    name: String!
+}
+
+type Post {
+    id: ID!
+    image: String
+    title: String!
+    description: String!
+    content: String
+    status: PostStatus!
+    comment_status: CommentStatus!
+    slug: String!
+    authorId: User!
+    categoryId: PostCategory!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type Query {
+    posts: [Post]
+    post(id: ID!): Post
+}
+
+type Mutation {
+    newPost(input: PostInput!): Post @isAuth
+    newCategory(input: CategoryInput!): PostCategory @isAuth
+}

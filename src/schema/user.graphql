@@ -13,6 +13,8 @@ enum Roles {
 type User {
   id: ID!
   username: String!
+  about: String
+  avatar: String
   role: Roles!
   email: String!
   confirmed: Boolean!

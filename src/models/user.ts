@@ -12,6 +12,7 @@ import {
 import * as yup from "yup";
 import { username, password, email } from "./validations/user";
 import { Post } from "./post";
+import { ApolloError } from "apollo-server-core";
 
 export enum Roles {
   ADMIN,
@@ -32,14 +33,14 @@ export class User extends BaseEntity {
 
   @Column("text") password: string;
 
-  @Column("text") about: string;
+  @Column("text", { nullable: true }) about: string;
 
   @Column("varchar", { length: 255, nullable: true }) avatar: string;
 
   @Column("boolean", { default: false }) confirmed: boolean;
 
   @OneToMany(() => Post, post => post.author)
-  posts: Post[];
+  posts: Promise<Post[]>;
 
   @CreateDateColumn() createdAt: Date;
 
@@ -52,10 +53,7 @@ export class User extends BaseEntity {
         type: argon2.argon2d,
       });
     } catch (error) {
-      // tslint:disable-next-line
-      console.log(
-        `Something went wrong while creating your account. Please try again.`,
-      );
+      throw new ApolloError("Something went wrong while creating your account. Please try again.");
     }
   }
 }
