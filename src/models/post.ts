@@ -16,14 +16,9 @@ import { PostCategory } from "./post-category";
 import { ApolloError } from "apollo-server-core";
 
 export enum PostStatus {
-  PUBLISHED = 1,
-  DRAFT = 0,
-  ARCHIVED = 2,
-}
-
-export enum CommentStatus {
-  OPEN = 1,
-  CLOSED = 0,
+  DRAFT,
+  PUBLISHED,
+  ARCHIVED,
 }
 
 @Entity("posts")
@@ -34,7 +29,9 @@ export class Post extends BaseEntity {
 
   @Column("varchar", { length: 150 }) title: string;
 
-  @ManyToOne(() => PostCategory, category => category.posts, { nullable: false })
+  @ManyToOne(() => PostCategory, category => category.posts, {
+    nullable: false,
+  })
   category: Promise<PostCategory>;
 
   @Column("text") description: string;
@@ -46,8 +43,8 @@ export class Post extends BaseEntity {
   @Column({ type: "enum", enum: PostStatus, default: "DRAFT" })
   status: PostStatus;
 
-  @Column({ type: "enum", enum: CommentStatus, default: "OPEN" })
-  comment_status: CommentStatus;
+  @Column("boolean", { default: true })
+  commentable: boolean;
 
   @ManyToOne(() => User, author => author.posts, { nullable: false })
   author: Promise<User>;

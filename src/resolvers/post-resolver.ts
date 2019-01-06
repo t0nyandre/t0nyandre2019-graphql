@@ -35,8 +35,6 @@ export default {
         return error;
       }
 
-      console.log(post);
-
       return await Post.findOne(post.id);
     },
     newCategory: async (_: any, args: any) => {

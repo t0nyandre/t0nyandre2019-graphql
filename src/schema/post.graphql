@@ -4,11 +4,6 @@ enum PostStatus {
   ARCHIVED,
 }
 
-enum CommentStatus {
-  OPEN,
-  CLOSED,
-}
-
 type PostCategory {
     id: ID!
     icon: String!
@@ -22,7 +17,7 @@ type Post {
     description: String!
     content: String
     status: PostStatus!
-    comment_status: CommentStatus!
+    commentable: Boolean!
     slug: String!
     authorId: User!
     categoryId: PostCategory!

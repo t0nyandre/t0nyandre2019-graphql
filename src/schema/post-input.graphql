@@ -3,8 +3,8 @@ input PostInput {
     title: String!
     description: String!
     content: String
-    status: PostStatus
-    comment_status: CommentStatus
+    status: PostStatus!
+    commentable: Boolean!
     category: String!
 }
 
