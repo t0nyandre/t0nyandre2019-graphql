@@ -13,6 +13,7 @@ import * as yup from "yup";
 import { username, password, email } from "./validations/user";
 import { Post } from "./post";
 import { ApolloError } from "apollo-server-core";
+import { Comment } from "./comment";
 
 export enum Roles {
   ADMIN,
@@ -41,6 +42,9 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Post, post => post.author)
   posts: Promise<Post[]>;
+
+  @OneToMany(() => Comment, comment => comment.author)
+  comments: Promise<Comment[]>;
 
   @CreateDateColumn() createdAt: Date;
 

@@ -7,6 +7,7 @@ import {
   Entity,
   ManyToOne,
   BeforeInsert,
+  OneToMany,
 } from "typeorm";
 import { image, title, description, content } from "./validations/post";
 import * as yup from "yup";
@@ -14,6 +15,7 @@ import * as slug from "@sindresorhus/slugify";
 import { User } from "./user";
 import { PostCategory } from "./post-category";
 import { ApolloError } from "apollo-server-core";
+import { Comment } from "./comment";
 
 export enum PostStatus {
   DRAFT,
@@ -48,6 +50,9 @@ export class Post extends BaseEntity {
 
   @ManyToOne(() => User, author => author.posts, { nullable: false })
   author: Promise<User>;
+
+  @OneToMany(() => Comment, comment => comment.post)
+  comments: Promise<Comment[]>;
 
   @CreateDateColumn() createdAt: Date;
 
