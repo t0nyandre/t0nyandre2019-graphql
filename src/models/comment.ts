@@ -35,7 +35,7 @@ export class Comment extends BaseEntity {
   @BeforeInsert()
   async checkParent() {
       if (this.parent) {
-          throw new ApolloError("Cant be a comment of a comment of a post."); // fix this errormsg
+          throw new ApolloError("Cant be a comment of a comment of a comment of a post."); // fix this errormsg
       }
   }
 }

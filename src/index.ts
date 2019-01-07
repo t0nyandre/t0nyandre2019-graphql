@@ -10,6 +10,7 @@ import { User } from "./models/user";
 import { Post } from "./models/post";
 import { PostCategory } from "./models/post-category";
 import { redis } from "../config/redis";
+import { Comment } from "./models/comment";
 // tslint:disable-next-line
 require("dotenv").config();
 
@@ -34,9 +35,9 @@ async function startServer() {
     password: PG_PASS || "postgres",
     database: PG_DATABASE || "postgres",
     synchronize: true,
-    dropSchema: false,
+    dropSchema: true,
     logging: false,
-    entities: [User, Post, PostCategory],
+    entities: [User, Post, PostCategory, Comment],
   } as any);
 
   const app = express();
