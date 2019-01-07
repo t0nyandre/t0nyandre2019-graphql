@@ -4,19 +4,18 @@ import { categoryValidation, PostCategory } from "../models/post-category";
 export default {
   Post: {
     authorId: async (parent: any) => {
-      console.log(parent);
       return await parent.author;
     },
-    categoryId: (parent: any) => {
-      return parent.category;
+    categoryId: async (parent: any) => {
+      return await parent.category;
     },
   },
   Query: {
     posts: async () => {
       return await Post.find();
     },
-    post: (_: any, args: any) => {
-      return Post.findOne(args.id);
+    post: async (_: any, args: any) => {
+      return await Post.findOne(args.id);
     },
   },
   Mutation: {
