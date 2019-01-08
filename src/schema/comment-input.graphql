@@ -1,0 +1,5 @@
+input CommentInput {
+    content: String!
+    postId: ID
+    commentId: Int
+}

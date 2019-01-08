@@ -9,6 +9,9 @@ export default {
     categoryId: async (parent: any) => {
       return await parent.category;
     },
+    comments: async(parent: any) => {
+      return await parent.comments;
+    }
   },
   Query: {
     posts: async () => {

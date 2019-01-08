@@ -35,7 +35,7 @@ async function startServer() {
     password: PG_PASS || "postgres",
     database: PG_DATABASE || "postgres",
     synchronize: true,
-    dropSchema: true,
+    dropSchema: false,
     logging: false,
     entities: [User, Post, PostCategory, Comment],
   } as any);

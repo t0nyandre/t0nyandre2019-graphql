@@ -1,0 +1,20 @@
+type Comment {
+    id: Int!
+    content: String!
+    score: Int!
+    parentCommentId: [Comment]
+    postId: Post
+    authorId: User!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type Query {
+    comments(id: ID!): [Comment]
+}
+
+type Mutation {
+    newComment(input: CommentInput!): Comment @isAuth
+    upvote(id: Int!): Int! @isAuth
+    downvote(id: Int!): Int! @isAuth
+}

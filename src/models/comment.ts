@@ -6,11 +6,12 @@ import {
   ManyToOne,
   CreateDateColumn,
   UpdateDateColumn,
-  BeforeInsert,
+  OneToMany,
 } from "typeorm";
 import { Post } from "./post";
 import { User } from "./user";
-import { ApolloError } from "apollo-server-core";
+import { content } from "./validations/comment";
+import * as yup from "yup";
 
 @Entity("comments")
 export class Comment extends BaseEntity {
@@ -20,9 +21,13 @@ export class Comment extends BaseEntity {
 
   @Column("int2", { default: 0 }) score: number;
 
-  @Column("int", { nullable: true }) parent: number;
+  @ManyToOne(() => Comment, comment => comment.child_comments, { nullable: true })
+  parent_comment: Promise<Comment>;
 
-  @ManyToOne(() => Post, post => post.comments, { nullable: false })
+  @OneToMany(() => Comment, comment => comment.parent_comment, { nullable: true })
+  child_comments: Promise<Comment[]>;
+
+  @ManyToOne(() => Post, post => post.comments, { nullable: true })
   post: Promise<Post>;
 
   @ManyToOne(() => User, user => user.comments, { nullable: false })
@@ -31,11 +36,8 @@ export class Comment extends BaseEntity {
   @CreateDateColumn() createdAt: Date;
 
   @UpdateDateColumn() updatedAt: Date;
-
-  @BeforeInsert()
-  async checkParent() {
-      if (this.parent) {
-          throw new ApolloError("Cant be a comment of a comment of a comment of a post."); // fix this errormsg
-      }
-  }
 }
+
+export const commentValidation = yup.object().shape({
+  content,
+});

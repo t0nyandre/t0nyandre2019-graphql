@@ -16,11 +16,12 @@ type Post {
     title: String!
     description: String!
     content: String
-    status: PostStatus!
-    commentable: Boolean!
+    status: PostStatus
+    commentable: Boolean
     slug: String!
     authorId: User!
     categoryId: PostCategory!
+    comments: [Comment]
     createdAt: DateTime!
     updatedAt: DateTime!
 }

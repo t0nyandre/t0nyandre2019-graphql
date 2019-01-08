@@ -6,8 +6,8 @@ import {
   accountNotVerifiedError,
   accountAlreadyVerifiedError,
 } from "../error-messages";
-import { verifyAccountMail } from "../mails/verifyAccountMail";
-import { transporter } from "../../config/nodemailer";
+// import { verifyAccountMail } from "../mails/verifyAccountMail";
+// import { transporter } from "../../config/nodemailer";
 import * as argon2 from "argon2";
 import * as jwt from "jsonwebtoken";
 // tslint:disable-next-line
@@ -44,7 +44,8 @@ export default {
         { expiresIn: "2 days" },
       );
 
-      transporter.sendMail(verifyAccountMail(user.email, hashedId));
+      // transporter.sendMail(verifyAccountMail(user.email, hashedId));
+      console.log(hashedId);
 
       return user;
     },
