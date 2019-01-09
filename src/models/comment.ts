@@ -7,11 +7,14 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToMany,
+  OneToOne,
+  JoinColumn,
 } from "typeorm";
 import { Post } from "./post";
 import { User } from "./user";
 import { content } from "./validations/comment";
 import * as yup from "yup";
+import { CommentVote } from "./votes";
 
 @Entity("comments")
 export class Comment extends BaseEntity {
@@ -19,13 +22,15 @@ export class Comment extends BaseEntity {
 
   @Column("text") content: string;
 
-  @Column("int2", { default: 0 }) score: number;
+  @OneToOne(() => CommentVote, vote => vote.comment)
+  @JoinColumn()
+  score: CommentVote;
 
-  @ManyToOne(() => Comment, comment => comment.child_comments, { nullable: true })
-  parent_comment: Promise<Comment>;
+  @ManyToOne(() => Comment, comment => comment.childComments, { nullable: true })
+  parentComment: Promise<Comment>;
 
-  @OneToMany(() => Comment, comment => comment.parent_comment, { nullable: true })
-  child_comments: Promise<Comment[]>;
+  @OneToMany(() => Comment, comment => comment.parentComment, { nullable: true })
+  childComments: Promise<Comment[]>;
 
   @ManyToOne(() => Post, post => post.comments, { nullable: true })
   post: Promise<Post>;

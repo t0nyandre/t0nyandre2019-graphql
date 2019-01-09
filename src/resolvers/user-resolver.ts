@@ -45,7 +45,8 @@ export default {
       );
 
       // transporter.sendMail(verifyAccountMail(user.email, hashedId));
-      console.log(hashedId);
+      console.log(hashedId); // don't want to be spamming my mail so logging the id needed to verify account onto the
+      // terminal.
 
       return user;
     },

@@ -23,13 +23,13 @@ export const content = yup
   .trim()
   .notRequired();
 
-export const cat_icon = yup
+export const catIcon = yup
   .string()
   .trim()
   .max(200)
   .required("image for an icon is required");
 
-export const cat_name = yup
+export const catName = yup
   .string()
   .trim()
   .max(150)

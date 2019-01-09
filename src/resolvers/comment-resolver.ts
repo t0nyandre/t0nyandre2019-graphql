@@ -1,16 +1,25 @@
 import { Comment, commentValidation } from "../models/comment";
 import { ApolloError } from "apollo-server-core";
+import { Vote, CommentVote } from "../models/votes";
 
 export default {
-  Comment: {
-    parentCommentId: async (parent: any) => {
-      return await parent.child_comments;
+  CommentVote: {
+    voters: async (parent: any) => {
+      return await parent.voters;
     },
-    postId: async (parent: any) => {
+  },
+  Comment: {
+    parentComment: async (parent: any) => {
+      return await parent.childComments;
+    },
+    post: async (parent: any) => {
       return await parent.post;
     },
-    authorId: async (parent: any) => {
+    author: async (parent: any) => {
       return await parent.author;
+    },
+    score: async (parent: any) => {
+      return await parent.score;
     },
   },
   Query: {
@@ -38,14 +47,18 @@ export default {
       } else if (postId) {
         comment.post = postId;
       } else if (commentId) {
-        comment.parent_comment = commentId;
+        comment.parentComment = commentId;
       } else {
         throw new ApolloError(
           "You need to provide either a postId or commentId so we can create the relation",
         );
       }
-
       comment.author = req.session.userId;
+
+      let score = CommentVote.create();
+      score = await CommentVote.save(score);
+
+      comment.score = score;
 
       try {
         comment = await Comment.save(comment);
@@ -55,8 +68,8 @@ export default {
 
       return await Comment.findOne(comment.id);
     },
-    upvote: async (_: any, args: any) => {
-      const { id } = args;
+    vote: async (_: any, args: any, { req }: any) => {
+      const { id, vote } = args;
       let comment: Comment;
 
       try {
@@ -65,25 +78,19 @@ export default {
         throw new ApolloError("That comment does not exist");
       }
 
-      comment.score += 1;
-      await Comment.save(comment);
-
-      return comment.score;
-    },
-    downvote: async (_: any, args: any) => {
-      const { id } = args;
-      let comment: Comment;
-
-      try {
-        comment = (await Comment.findOne(id)) as Comment;
-      } catch (error) {
-        throw new ApolloError("That comment does not exist");
+      if (vote === Vote.UP) {
+        comment.score.value += 1;
+      } else if (vote === Vote.DOWN) {
+        comment.score.value -= 1;
+      } else {
+        throw new ApolloError("You can only vote a comment up or down");
       }
 
-      comment.score -= 1;
+      comment.score.voters = req.session.userId;
+
       await Comment.save(comment);
 
-      return comment.score;
+      return comment.score.value;
     },
   },
 };

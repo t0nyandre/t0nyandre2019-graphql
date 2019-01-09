@@ -3,15 +3,15 @@ import { categoryValidation, PostCategory } from "../models/post-category";
 
 export default {
   Post: {
-    authorId: async (parent: any) => {
+    author: async (parent: any) => {
       return await parent.author;
     },
-    categoryId: async (parent: any) => {
+    category: async (parent: any) => {
       return await parent.category;
     },
-    comments: async(parent: any) => {
+    comments: async (parent: any) => {
       return await parent.comments;
-    }
+    },
   },
   Query: {
     posts: async () => {

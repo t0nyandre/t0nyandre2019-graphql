@@ -11,6 +11,7 @@ import { Post } from "./models/post";
 import { PostCategory } from "./models/post-category";
 import { redis } from "../config/redis";
 import { Comment } from "./models/comment";
+import { CommentVote } from "./models/votes";
 // tslint:disable-next-line
 require("dotenv").config();
 
@@ -37,7 +38,7 @@ async function startServer() {
     synchronize: true,
     dropSchema: false,
     logging: false,
-    entities: [User, Post, PostCategory, Comment],
+    entities: [User, Post, PostCategory, Comment, CommentVote],
   } as any);
 
   const app = express();

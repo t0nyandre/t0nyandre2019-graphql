@@ -7,7 +7,7 @@ import {
 } from "typeorm";
 import * as yup from "yup";
 import { Post } from "./post";
-import { cat_icon, cat_name } from "./validations/post";
+import { catIcon, catName } from "./validations/post";
 
 @Entity("post_categories")
 export class PostCategory extends BaseEntity {
@@ -22,7 +22,7 @@ export class PostCategory extends BaseEntity {
 }
 
 export const categoryValidation = yup.object().shape({
-  icon: cat_icon,
-  name: cat_name,
-})
+  icon: catIcon,
+  name: catName,
+});
 // TODO: Add validations for post categories

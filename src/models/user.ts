@@ -8,12 +8,14 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   OneToMany,
+  ManyToMany,
 } from "typeorm";
 import * as yup from "yup";
 import { username, password, email } from "./validations/user";
 import { Post } from "./post";
 import { ApolloError } from "apollo-server-core";
 import { Comment } from "./comment";
+import { CommentVote } from "./votes";
 
 export enum Roles {
   ADMIN,
@@ -45,6 +47,9 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Comment, comment => comment.author)
   comments: Promise<Comment[]>;
+
+  @ManyToMany(() => CommentVote, vote => vote.voters)
+  votes: Promise<CommentVote[]>;
 
   @CreateDateColumn() createdAt: Date;
 

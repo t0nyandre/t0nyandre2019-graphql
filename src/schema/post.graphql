@@ -19,8 +19,8 @@ type Post {
     status: PostStatus
     commentable: Boolean
     slug: String!
-    authorId: User!
-    categoryId: PostCategory!
+    author: User!
+    category: PostCategory!
     comments: [Comment]
     createdAt: DateTime!
     updatedAt: DateTime!

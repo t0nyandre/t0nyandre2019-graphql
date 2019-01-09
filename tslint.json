@@ -4,8 +4,10 @@
   "jsRules": {},
   "rules": {
     "ordered-imports": false,
-    "object-literal-sort-keys": false,
     "no-console": false,
+    "object-literal-sort-keys": false,
+    "member-access": false,
+    "arrow-parens": false,
     "trailing-comma": [
       true,
       {
@@ -18,6 +20,7 @@
         "esSpecCompliant": true
       }
     ],
-    "member-ordering": false,
-  }
+    "member-ordering": false
+  },
+  "rulesDirectory": []
 }
