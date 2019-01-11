@@ -1,15 +1,16 @@
 import { Comment, commentValidation } from "../models/comment";
 import { ApolloError } from "apollo-server-core";
 import { Vote, CommentVote } from "../models/votes";
+import { User } from "../models/user";
 
 export default {
   CommentVote: {
     voters: async (parent: any) => {
-      return await parent.voters;
+      return await User.find(parent.voters);
     },
   },
   Comment: {
-    parentComment: async (parent: any) => {
+    childComments: async (parent: any) => {
       return await parent.childComments;
     },
     post: async (parent: any) => {
@@ -19,7 +20,7 @@ export default {
       return await parent.author;
     },
     score: async (parent: any) => {
-      return await parent.score;
+      return await CommentVote.findOne(parent.score);
     },
   },
   Query: {
