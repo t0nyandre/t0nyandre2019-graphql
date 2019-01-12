@@ -7,15 +7,13 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-  OneToMany,
-  ManyToMany,
+  OneToOne,
+  JoinColumn,
 } from "typeorm";
 import * as yup from "yup";
 import { username, password, email } from "./validations/user";
-import { Post } from "./post";
 import { ApolloError } from "apollo-server-core";
-import { Comment } from "./comment";
-import { CommentVote } from "./votes";
+import { Profile } from "./profile";
 
 export enum Roles {
   ADMIN,
@@ -36,20 +34,11 @@ export class User extends BaseEntity {
 
   @Column("text") password: string;
 
-  @Column("text", { nullable: true }) about: string;
-
-  @Column("varchar", { length: 255, nullable: true }) avatar: string;
-
   @Column("boolean", { default: false }) confirmed: boolean;
 
-  @OneToMany(() => Post, post => post.author)
-  posts: Promise<Post[]>;
-
-  @OneToMany(() => Comment, comment => comment.author)
-  comments: Promise<Comment[]>;
-
-  @ManyToMany(() => CommentVote, vote => vote.voters)
-  votes: Promise<CommentVote[]>;
+  @OneToOne(() => Profile, { cascade: true })
+  @JoinColumn()
+  profile: Profile;
 
   @CreateDateColumn() createdAt: Date;
 
@@ -62,7 +51,9 @@ export class User extends BaseEntity {
         type: argon2.argon2d,
       });
     } catch (error) {
-      throw new ApolloError("Something went wrong while creating your account. Please try again.");
+      throw new ApolloError(
+        "Something went wrong while creating your account. Please try again.",
+      );
     }
   }
 }
