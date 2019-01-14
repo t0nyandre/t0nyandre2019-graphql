@@ -4,12 +4,7 @@ import {
   Column,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-  OneToMany,
-  ManyToMany,
 } from "typeorm";
-import { Post } from "./post";
-import { CommentVote } from "./votes";
-import { Comment } from "./comment";
 
 @Entity("profiles")
 export class Profile extends BaseEntity {
@@ -38,15 +33,6 @@ export class Profile extends BaseEntity {
   @Column("varchar", { length: 100, nullable: true }) gitlabUsername: string;
 
   @Column("varchar", { length: 100, nullable: true }) facebookUsername: string;
-
-  @OneToMany(() => Post, post => post.author)
-  posts: Promise<Post[]>;
-
-  @OneToMany(() => Comment, comment => comment.author)
-  comments: Promise<Comment[]>;
-
-  @ManyToMany(() => CommentVote, vote => vote.voters)
-  votes: Promise<CommentVote[]>;
 
   @UpdateDateColumn() updatedAt: Date;
 }

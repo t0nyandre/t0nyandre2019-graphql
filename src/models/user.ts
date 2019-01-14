@@ -9,11 +9,16 @@ import {
   UpdateDateColumn,
   OneToOne,
   JoinColumn,
+  OneToMany,
+  ManyToMany,
 } from "typeorm";
 import * as yup from "yup";
 import { username, password, email } from "./validations/user";
 import { ApolloError } from "apollo-server-core";
 import { Profile } from "./profile";
+import { Post } from "./post";
+import { CommentVote } from "./votes";
+import { Comment } from "./comment";
 
 export enum Roles {
   ADMIN,
@@ -39,6 +44,15 @@ export class User extends BaseEntity {
   @OneToOne(() => Profile, { cascade: true })
   @JoinColumn()
   profile: Profile;
+
+  @OneToMany(() => Post, post => post.author)
+  posts: Promise<Post[]>;
+
+  @OneToMany(() => Comment, comment => comment.author)
+  comments: Promise<Comment[]>;
+
+  @ManyToMany(() => CommentVote, vote => vote.voters)
+  votes: Promise<CommentVote[]>;
 
   @CreateDateColumn() createdAt: Date;
 

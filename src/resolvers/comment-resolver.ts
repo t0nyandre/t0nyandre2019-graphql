@@ -56,8 +56,7 @@ export default {
       }
       comment.author = req.session.userId;
 
-      let score = CommentVote.create();
-      score = await CommentVote.save(score);
+      const score = CommentVote.create();
 
       comment.score = score;
 

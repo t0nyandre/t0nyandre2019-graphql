@@ -10,6 +10,7 @@ import {
 // import { transporter } from "../../config/nodemailer";
 import * as argon2 from "argon2";
 import * as jwt from "jsonwebtoken";
+import { Profile } from "../models/profile";
 // tslint:disable-next-line
 require("dotenv").config();
 
@@ -31,6 +32,10 @@ export default {
       );
 
       let user = User.create({ username, email, password });
+
+      const profile = Profile.create();
+
+      user.profile = profile;
 
       try {
         user = await User.save(user);

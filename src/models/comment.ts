@@ -22,7 +22,7 @@ export class Comment extends BaseEntity {
 
   @Column("text") content: string;
 
-  @OneToOne(() => CommentVote, vote => vote.comment)
+  @OneToOne(() => CommentVote, vote => vote.comment, { cascade: true })
   @JoinColumn()
   score: CommentVote;
 

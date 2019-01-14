@@ -12,10 +12,10 @@ import {
 import { image, title, description, content } from "./validations/post";
 import * as yup from "yup";
 import * as slug from "@sindresorhus/slugify";
-import { User } from "./user";
 import { PostCategory } from "./post-category";
 import { ApolloError } from "apollo-server-core";
 import { Comment } from "./comment";
+import { User } from "./user";
 
 export enum PostStatus {
   DRAFT,
