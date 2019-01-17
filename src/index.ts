@@ -5,44 +5,20 @@ import * as connectRedis from "connect-redis";
 import * as cors from "cors";
 import { ApolloServer } from "apollo-server-express";
 import { createConnection } from "typeorm";
+
+import { DefaultConnection } from "../config/typeorm";
 import { schema } from "./createSchema";
-import { User } from "./models/user";
-import { Post } from "./models/post";
-import { PostCategory } from "./models/post-category";
 import { redis } from "../config/redis";
-import { Comment } from "./models/comment";
-import { CommentVote } from "./models/votes";
-import { Profile } from "./models/profile";
 // tslint:disable-next-line
 require("dotenv").config();
 
-const {
-  SESSION_SECRET,
-  SESSION_NAME,
-  NODE_ENV,
-  PG_HOST,
-  PG_PORT,
-  PG_USER,
-  PG_PASS,
-  PG_DATABASE,
-} = process.env;
-const RedisStore = connectRedis(session);
+const { SESSION_SECRET, SESSION_NAME, NODE_ENV } = process.env;
 
 async function startServer() {
-  await createConnection({
-    type: "postgres",
-    host: PG_HOST || "localhost",
-    port: PG_PORT || 5432,
-    username: PG_USER || "postgres",
-    password: PG_PASS || "postgres",
-    database: PG_DATABASE || "postgres",
-    synchronize: true,
-    dropSchema: false,
-    logging: false,
-    entities: [User, Post, PostCategory, Comment, CommentVote, Profile],
-  } as any);
+  await createConnection(DefaultConnection);
 
   const app = express();
+  const RedisStore = connectRedis(session);
 
   app.use(
     cors({
