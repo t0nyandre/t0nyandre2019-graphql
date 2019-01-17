@@ -1,0 +1,4 @@
+input ChangeInput {
+  token: String!
+  password: String!
+}

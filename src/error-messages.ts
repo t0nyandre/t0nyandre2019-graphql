@@ -38,10 +38,10 @@ export const accountAlreadyVerifiedError = () => {
   );
 };
 
-export const invalidVerificationTokenError = () => {
+export const invalidTokenError = () => {
   return new ApolloError(
-    "invalid verification token",
-    "INVALID_VERIFICATION_TOKEN",
+    "invalid token",
+    "INVALID_TOKEN",
   );
 };
 

@@ -8,8 +8,8 @@ export const verifyAccountMail = (email: string, hashedId: string) => {
 <p>Thank you for signing up to my website. It's just one final step before you can start
 commenting on my posts and projects.</p>
 <p><strong>CLICK ON THIS LINK TO ACTIVATE YOUR ACCOUNT:</strong></p>
-<p><a href="${process.env.URL}/v/${hashedId}" target="_BLANK">${process.env.URL}/v/${hashedId}</a></p>
-<br>
+<p><a href="${process.env.URL}/user/verify/${hashedId}" target="_BLANK">${process.env.URL}/user/verify/${hashedId}</a>
+</p><br>
 <p>Thanks,</p>
 <br><br>
 <p>Tony André Haugen<br>

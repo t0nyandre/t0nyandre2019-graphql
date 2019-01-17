@@ -5,6 +5,8 @@ type Query {
 type Mutation {
   register(registerData: RegisterInput!): User @notAuth
   verify(verifyData: VerifyInput!): Boolean @notAuth
+  forgotPassword(email: String!): Boolean
+  changePassword(changeData: ChangeInput!): Boolean
   logout: Boolean @isAuth
   login(loginData: LoginInput!): User @notAuth
 }

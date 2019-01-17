@@ -3,7 +3,7 @@ import * as cuid from "cuid";
 import { redis, confirmUserPrefix } from "../../../config/redis";
 import { Profile } from "../../models/profile";
 import { User } from "../../models";
-import { registerValidation } from "../../models/validations";
+import { registerValidation } from "../../validations";
 // import { verifyAccountMail } from "../mails/verifyAccountMail";
 // import { transporter } from "../../config/nodemailer";
 
@@ -22,11 +22,11 @@ export default {
         return error;
       }
 
-      const hashedId = cuid();
-      redis.set(confirmUserPrefix + hashedId, user.id, "EX", 60 * 60 * 24 * 2); // 2 days
+      const token = cuid();
+      redis.set(confirmUserPrefix + token, user.id, "EX", 60 * 60 * 24 * 2); // 2 days
 
       // transporter.sendMail(verifyAccountMail(user.email, hashedId));
-      console.log(hashedId); // don't want to be spamming my mail so logging the id needed to verify account onto the
+      console.log(token); // don't want to be spamming my mail so logging the id needed to verify account onto the
       // terminal.
 
       return user;
