@@ -12,9 +12,8 @@ import {
   OneToMany,
   ManyToMany,
 } from "typeorm";
-import * as yup from "yup";
-import { username, password, email } from "./validations/user";
 import { ApolloError } from "apollo-server-core";
+
 import { Profile } from "./profile";
 import { Post } from "./post";
 import { CommentVote } from "./votes";
@@ -71,9 +70,3 @@ export class User extends BaseEntity {
     }
   }
 }
-
-export const registerValidation = yup.object().shape({
-  username,
-  email,
-  password,
-});

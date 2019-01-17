@@ -1,0 +1,15 @@
+enum Roles {
+  ADMIN
+  PRO
+  WRITER
+  USER
+}
+
+type User {
+  id: ID!
+  username: String!
+  role: Roles!
+  email: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}

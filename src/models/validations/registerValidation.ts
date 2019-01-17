@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-export const username = yup
+const username = yup
   .string()
   .trim()
   .min(3)
@@ -11,13 +11,13 @@ export const username = yup
   )
   .required("username is required");
 
-export const email = yup
+const email = yup
   .string()
   .trim()
   .email()
   .required("email is required");
 
-export const password = yup
+const password = yup
   .string()
   .min(6)
   .matches(
@@ -25,3 +25,9 @@ export const password = yup
     "password has to consist of at least one uppercase and lowercase character, one number and a special character",
   )
   .required("password is required");
+
+export const registerValidation = yup.object().shape({
+  username,
+  email,
+  password,
+});

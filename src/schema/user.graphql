@@ -1,34 +1,10 @@
-scalar DateTime
-
-directive @isAuth on FIELD_DEFINITION
-directive @notAuth on FIELD_DEFINITION
-
-enum Roles {
-  ADMIN
-  PRO
-  WRITER
-  USER
-}
-
-type User {
-  id: ID!
-  username: String!
-  about: String
-  avatar: String
-  role: Roles!
-  email: String!
-  confirmed: Boolean!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-}
-
 type Query {
   me: User @isAuth
 }
 
 type Mutation {
-  register(input: RegisterInput!): User @notAuth
-  verify(input: VerifyInput!): User
+  register(registerData: RegisterInput!): User @notAuth
+  verify(verifyData: VerifyInput!): Boolean @notAuth
   logout: Boolean @isAuth
-  login(input: LoginInput!): User @notAuth
+  login(loginData: LoginInput!): User @notAuth
 }
