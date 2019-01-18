@@ -13,7 +13,7 @@ const username = yup
   )
   .required("username is required");
 
-export const registerValidation = yup.object().shape({
+export const userValidation = yup.object().shape({
   username,
   email,
   password,

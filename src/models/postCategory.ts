@@ -5,9 +5,7 @@ import {
   Entity,
   OneToMany,
 } from "typeorm";
-import * as yup from "yup";
 import { Post } from "./post";
-import { catIcon, catName } from "./validations/post";
 
 @Entity("post_categories")
 export class PostCategory extends BaseEntity {
@@ -20,9 +18,4 @@ export class PostCategory extends BaseEntity {
   @OneToMany(() => Post, post => post.category)
   posts: Promise<Post[]>;
 }
-
-export const categoryValidation = yup.object().shape({
-  icon: catIcon,
-  name: catName,
-});
 // TODO: Add validations for post categories

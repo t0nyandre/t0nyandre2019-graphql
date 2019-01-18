@@ -1,0 +1,4 @@
+input PostCategoryInput {
+    icon: String!
+    name: String!
+}

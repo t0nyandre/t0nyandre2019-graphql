@@ -3,14 +3,14 @@ import * as cuid from "cuid";
 import { redis, confirmUserPrefix } from "../../../config/redis";
 import { Profile } from "../../models/profile";
 import { User } from "../../models";
-import { registerValidation } from "../../validations";
+import { userValidation } from "../../validations";
 // import { verifyAccountMail } from "../mails/verifyAccountMail";
 // import { transporter } from "../../config/nodemailer";
 
 export default {
   Mutation: {
     register: async (_: any, { registerData }: any) => {
-      await registerValidation.validate(registerData, { abortEarly: false });
+      await userValidation.validate(registerData, { abortEarly: false });
 
       let user = User.create(registerData);
       const profile = Profile.create();

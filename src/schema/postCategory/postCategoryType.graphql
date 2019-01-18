@@ -1,0 +1,5 @@
+type PostCategory {
+    id: ID!
+    icon: String!
+    name: String!
+}

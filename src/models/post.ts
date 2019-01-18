@@ -9,10 +9,8 @@ import {
   BeforeInsert,
   OneToMany,
 } from "typeorm";
-import { image, title, description, content } from "./validations/post";
-import * as yup from "yup";
 import * as slug from "@sindresorhus/slugify";
-import { PostCategory } from "./post-category";
+import { PostCategory } from "./postCategory";
 import { ApolloError } from "apollo-server-core";
 import { Comment } from "./comment";
 import { User } from "./user";
@@ -70,11 +68,3 @@ export class Post extends BaseEntity {
     }
   }
 }
-
-// TODO: Add validation for enum and author
-export const postValidation = yup.object().shape({
-  image,
-  title,
-  description,
-  content,
-});

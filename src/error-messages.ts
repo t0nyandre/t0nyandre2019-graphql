@@ -19,6 +19,10 @@ export const userNotExistError = () => {
   return new ApolloError("user does not exist", "USER_NOT_EXIST");
 };
 
+export const postNotExist = () => {
+  return new ApolloError("post does not exist", "POST_NOT_EXIST");
+};
+
 export const usernameTakenError = () => {
   return new ApolloError("username already taken", "USERNAME_TAKEN");
 };

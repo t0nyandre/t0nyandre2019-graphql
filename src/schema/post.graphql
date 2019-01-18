@@ -1,37 +1,8 @@
-enum PostStatus {
-  PUBLISHED,
-  DRAFT,
-  ARCHIVED,
-}
-
-type PostCategory {
-    id: ID!
-    icon: String!
-    name: String!
-}
-
-type Post {
-    id: ID!
-    image: String
-    title: String!
-    description: String!
-    content: String
-    status: PostStatus
-    commentable: Boolean
-    slug: String!
-    author: User!
-    category: PostCategory!
-    comments: [Comment]
-    createdAt: DateTime!
-    updatedAt: DateTime!
-}
-
 type Query {
     posts: [Post]
     post(id: ID!): Post
 }
 
 type Mutation {
-    newPost(input: PostInput!): Post @isAuth
-    newCategory(input: CategoryInput!): PostCategory @isAuth
+    createPost(input: PostInput!): Post @isAuth
 }
