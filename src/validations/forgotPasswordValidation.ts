@@ -1,10 +1,6 @@
 import * as yup from "yup";
 
-const email = yup
-  .string()
-  .trim()
-  .email()
-  .required("email is required");
+import { email } from "./shared";
 
 export const forgotPasswordValidation = yup.object().shape({
   email,

@@ -1,5 +1,7 @@
 import * as yup from "yup";
 
+import { password, email } from "./shared";
+
 const username = yup
   .string()
   .trim()
@@ -10,21 +12,6 @@ const username = yup
     "username has to start with a letter and can contain numbers. words can only be seperated by - or _ once",
   )
   .required("username is required");
-
-const email = yup
-  .string()
-  .trim()
-  .email()
-  .required("email is required");
-
-const password = yup
-  .string()
-  .min(6)
-  .matches(
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])/,
-    "password has to consist of at least one uppercase and lowercase character, one number and a special character",
-  )
-  .required("password is required");
 
 export const registerValidation = yup.object().shape({
   username,
