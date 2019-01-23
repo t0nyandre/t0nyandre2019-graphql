@@ -12,9 +12,7 @@ import {
 } from "typeorm";
 import { Post } from "./post";
 import { User } from "./user";
-import { content } from "./validations/comment";
-import * as yup from "yup";
-import { CommentVote } from "./votes";
+import { CommentScore } from "./commentScore";
 
 @Entity("comments")
 export class Comment extends BaseEntity {
@@ -22,9 +20,9 @@ export class Comment extends BaseEntity {
 
   @Column("text") content: string;
 
-  @OneToOne(() => CommentVote, vote => vote.comment, { cascade: true })
+  @OneToOne(() => CommentScore, vote => vote.comment, { cascade: true })
   @JoinColumn()
-  score: CommentVote;
+  score: CommentScore;
 
   @ManyToOne(() => Comment, comment => comment.childComments, { nullable: true })
   parentComment: Promise<Comment>;
@@ -42,7 +40,3 @@ export class Comment extends BaseEntity {
 
   @UpdateDateColumn() updatedAt: Date;
 }
-
-export const commentValidation = yup.object().shape({
-  content,
-});

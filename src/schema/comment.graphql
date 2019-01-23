@@ -1,32 +1,9 @@
-enum Vote {
-    UP,
-    DOWN,
-}
-
-type CommentVote {
-    id: Int!
-    value: Int!
-    comment: Comment!
-    voters: [User]
-    lastVoteAt: DateTime
-}
-
-type Comment {
-    id: Int!
-    content: String!
-    score: CommentVote
-    childComments: [Comment]
-    post: Post
-    author: User!
-    createdAt: DateTime!
-    updatedAt: DateTime!
-}
-
 type Query {
     comments(id: ID!): [Comment]
 }
 
 type Mutation {
-    newComment(input: CommentInput!): Comment @isAuth
-    vote(id: Int!, vote: Vote!): Int! @isAuth
+    createComment(commentData: CommentInput!): Comment @isAuth
+    upvote(id: Int!): Int! @isAuth
+    downvote(id: Int!): Int! @isAuth
 }

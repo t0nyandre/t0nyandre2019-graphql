@@ -3,13 +3,13 @@ import { Post } from "../../models";
 
 export default {
   Mutation: {
-    createPost: async (_: any, { input }: any, { req }: any) => {
-      await postValidation.validate(input, { abortEarly: false });
+    createPost: async (_: any, { postData }: any, { req }: any) => {
+      await postValidation.validate(postData, { abortEarly: false });
 
-      let post = Post.create(input);
+      let post = Post.create(postData);
 
       post.author = req.session.userId;
-      post.category = input.category;
+      post.category = postData.category;
 
       try {
         post = await post.save();

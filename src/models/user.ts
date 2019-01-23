@@ -16,7 +16,7 @@ import { ApolloError } from "apollo-server-core";
 
 import { Profile } from "./profile";
 import { Post } from "./post";
-import { CommentVote } from "./votes";
+import { CommentScore } from "./commentScore";
 import { Comment } from "./comment";
 
 export enum Roles {
@@ -50,8 +50,8 @@ export class User extends BaseEntity {
   @OneToMany(() => Comment, comment => comment.author)
   comments: Promise<Comment[]>;
 
-  @ManyToMany(() => CommentVote, vote => vote.voters)
-  votes: Promise<CommentVote[]>;
+  @ManyToMany(() => CommentScore, vote => vote.votedUp && vote.votedDown)
+  votes: Promise<CommentScore[]>;
 
   @CreateDateColumn() createdAt: Date;
 

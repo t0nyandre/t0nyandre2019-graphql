@@ -4,7 +4,7 @@ import {
   Post,
   PostCategory,
   Comment,
-  CommentVote,
+  CommentScore,
   Profile,
 } from "../src/models";
 // tslint:disable-next-line
@@ -29,5 +29,5 @@ export const DefaultConnection = {
   synchronize: true,
   dropSchema: false,
   logging: true,
-  entities: [User, Post, PostCategory, Comment, CommentVote, Profile],
+  entities: [User, Post, PostCategory, Comment, CommentScore, Profile],
 } as ConnectionOptions;

@@ -11,13 +11,8 @@ import {
 import { Comment } from "./comment";
 import { User } from "./user";
 
-export enum Vote {
-    UP,
-    DOWN,
-}
-
 @Entity("comment_votes")
-export class CommentVote extends BaseEntity {
+export class CommentScore extends BaseEntity {
   @PrimaryGeneratedColumn() id: number;
 
   @Column("int", { default: 0 }) value: number;
@@ -27,7 +22,11 @@ export class CommentVote extends BaseEntity {
 
   @ManyToMany(() => User, user => user.votes, { nullable: true })
   @JoinTable()
-  voters: Promise<User[]>;
+  votedUp: Promise<User[]>;
+
+  @ManyToMany(() => User, user => user.votes, { nullable: true })
+  @JoinTable()
+  votedDown: Promise<User[]>;
 
   @UpdateDateColumn()
   lastVoteAt: Date;

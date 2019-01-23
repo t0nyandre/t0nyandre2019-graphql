@@ -1,0 +1,8 @@
+type CommentScore {
+    id: Int!
+    value: Int!
+    comment: Comment!
+    votedUp: [User]
+    votedDown: [User]
+    lastVoteAt: DateTime
+}

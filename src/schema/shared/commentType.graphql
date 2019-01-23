@@ -1,0 +1,10 @@
+type Comment {
+    id: Int!
+    content: String!
+    score: CommentScore
+    childComments: [Comment]
+    post: Post
+    author: User!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}

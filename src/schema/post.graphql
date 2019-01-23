@@ -4,5 +4,5 @@ type Query {
 }
 
 type Mutation {
-    createPost(input: PostInput!): Post @isAuth
+    createPost(postData: PostInput!): Post @isAuth
 }

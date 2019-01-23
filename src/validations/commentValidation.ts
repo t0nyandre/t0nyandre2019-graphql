@@ -1,8 +1,10 @@
 import * as yup from "yup";
 
-export const content = yup
+const content = yup
   .string()
   .trim()
   .required("content of comment is required");
 
-// TODO: add validation on enums
+export const commentValidation = yup.object().shape({
+  content,
+});
