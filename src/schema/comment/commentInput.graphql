@@ -1,5 +1,5 @@
 input CommentInput {
     content: String!
-    postId: ID
-    commentId: Int
+    reply: Boolean!
+    id: ID!
 }

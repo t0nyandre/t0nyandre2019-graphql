@@ -1,3 +1,5 @@
+import { Comment } from "../../models";
+
 export default {
   Post: {
     author: async (parent: any) => {
@@ -7,7 +9,7 @@ export default {
       return await parent.category;
     },
     comments: async (parent: any) => {
-      return await parent.comments;
+      return await Comment.find(parent.comments);
     },
   },
 };

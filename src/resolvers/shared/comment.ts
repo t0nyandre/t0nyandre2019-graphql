@@ -12,7 +12,9 @@ export default {
       return await parent.author;
     },
     score: async (parent: any) => {
-      return await CommentScore.findOne(parent.score);
+      return await CommentScore.findOne(
+        parent.score ? parent.score.id : parent.score
+      );
     },
   },
 };

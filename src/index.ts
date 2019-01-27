@@ -22,7 +22,7 @@ async function startServer() {
 
   app.use(
     cors({
-      origin: ["http://localhost:4000", "http://localhost:3000"],
+      origin: ["http://localhost:3000"],
       credentials: true,
     }),
     session({
@@ -38,7 +38,7 @@ async function startServer() {
       store: new RedisStore({
         client: redis as any,
       }),
-    }),
+    })
   );
 
   const server = new ApolloServer({
@@ -58,8 +58,8 @@ async function startServer() {
 
   app.listen({ port }, () =>
     console.log(
-      `🚀 Server ready at http://localhost:${port}${server.graphqlPath}`,
-    ),
+      `🚀 Server ready at http://localhost:${port}${server.graphqlPath}`
+    )
   );
 }
 

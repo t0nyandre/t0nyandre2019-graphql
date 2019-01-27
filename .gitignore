@@ -1,3 +1,4 @@
+.root/
 .idea/
 .vscode/
 node_modules/
@@ -6,3 +7,4 @@ tmp/
 temp/
 *.env
 *.log
+tags
