@@ -1,12 +1,13 @@
 # Easy access for Query/Mutations
 
 ### register
-`mutation {
+```graphql
+mutation {
   register(
     registerData: {
-      username: "t0nyandre"
-      email: "post@tonyandre.co"
-      password: "t3zT#123a"
+      username: ""
+      email: ""
+      password: ""
     }
   ) {
     id
@@ -16,9 +17,12 @@
     createdAt
     updatedAt
   }
-}`
+}
+```
 
 ### verify
+```graphql
 mutation {
-  verify(verifyData: { token: "cjrfgdr410000e4mb0tyf71gi" })
+  verify(verifyData: { token: "" })
 }
+```
