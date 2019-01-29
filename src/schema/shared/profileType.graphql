@@ -1,0 +1,16 @@
+type Profile {
+  id: ID!
+  firstName: String
+  lastName: String
+  avatar: String
+  bio: String
+  webUrl: String
+  blogUrl: String
+  location: String
+  youtubeUsername: String
+  twitterUsername: String
+  githubUsername: String
+  gitlabUsername: String
+  facebookUsername: String
+  updatedAt: DateTime
+}

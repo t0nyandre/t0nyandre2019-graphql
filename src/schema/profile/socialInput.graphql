@@ -1,0 +1,7 @@
+input ProfileSocialInput {
+  youtubeUsername: String
+  twitterUsername: String
+  githubUsername: String
+  gitlabUsername: String
+  facebookUsername: String
+}

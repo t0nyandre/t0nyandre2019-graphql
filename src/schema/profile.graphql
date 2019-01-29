@@ -1,0 +1,10 @@
+type Query {
+  profile(id: ID!): Profile
+}
+
+type Mutation {
+  editProfile(
+    profileInput: ProfileInput,
+    profileSocialInput: ProfileSocialInput
+  ): Profile
+}

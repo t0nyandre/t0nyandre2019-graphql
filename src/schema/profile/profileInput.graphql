@@ -1,0 +1,9 @@
+input ProfileInput {
+  firstName: String
+  lastName: String
+  avatar: String
+  bio: String
+  webUrl: String
+  blogUrl: String
+  location: String
+}
