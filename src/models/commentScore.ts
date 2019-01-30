@@ -11,7 +11,7 @@ import {
 import { Comment } from "./comment";
 import { User } from "./user";
 
-@Entity("comment_votes")
+@Entity("commentscore")
 export class CommentScore extends BaseEntity {
   @PrimaryGeneratedColumn() id: number;
 
@@ -22,11 +22,11 @@ export class CommentScore extends BaseEntity {
 
   @ManyToMany(() => User, user => user.votes, { nullable: true })
   @JoinTable()
-  votedUp: Promise<User[]>;
+  upvote: Promise<User[]>;
 
   @ManyToMany(() => User, user => user.votes, { nullable: true })
   @JoinTable()
-  votedDown: Promise<User[]>;
+  downvote: Promise<User[]>;
 
   @UpdateDateColumn()
   lastVoteAt: Date;

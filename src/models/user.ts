@@ -50,7 +50,7 @@ export class User extends BaseEntity {
   @OneToMany(() => Comment, comment => comment.author)
   comments: Promise<Comment[]>;
 
-  @ManyToMany(() => CommentScore, vote => vote.votedUp && vote.votedDown)
+  @ManyToMany(() => CommentScore, vote => vote.upvote && vote.downvote)
   votes: Promise<CommentScore[]>;
 
   @CreateDateColumn() createdAt: Date;
@@ -65,7 +65,7 @@ export class User extends BaseEntity {
       });
     } catch (error) {
       throw new ApolloError(
-        "Something went wrong while creating your account. Please try again.",
+        "Something went wrong while creating your account. Please try again."
       );
     }
   }
