@@ -1,11 +1,18 @@
 import * as argon2 from "argon2";
 
-import { User } from "../../models";
-import { invalidLoginError, accountNotVerifiedError } from "../../error-messages";
+import {
+  invalidLoginError,
+  accountNotVerifiedError,
+} from "../../utils/errorMessages";
+import { User } from "../../models/user";
 
 export default {
   Mutation: {
-    login: async (_: any, { loginData: { email, password } }: any, { req }: any) => {
+    login: async (
+      _: any,
+      { loginData: { email, password } }: any,
+      { req }: any
+    ) => {
       const user = await User.findOne({ email });
 
       if (!user) {

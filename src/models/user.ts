@@ -10,14 +10,11 @@ import {
   OneToOne,
   JoinColumn,
   OneToMany,
-  ManyToMany,
 } from "typeorm";
 import { ApolloError } from "apollo-server-core";
 
 import { Profile } from "./profile";
 import { Post } from "./post";
-import { CommentScore } from "./commentScore";
-import { Comment } from "./comment";
 
 export enum Roles {
   ADMIN,
@@ -46,12 +43,6 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Post, post => post.author)
   posts: Promise<Post[]>;
-
-  @OneToMany(() => Comment, comment => comment.author)
-  comments: Promise<Comment[]>;
-
-  @ManyToMany(() => CommentScore, vote => vote.upvote && vote.downvote)
-  votes: Promise<CommentScore[]>;
 
   @CreateDateColumn() createdAt: Date;
 

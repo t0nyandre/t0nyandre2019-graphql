@@ -3,4 +3,3 @@ export * from "./forgotPasswordValidation";
 export * from "./changePasswordValidation";
 export * from "./categoryValidation";
 export * from "./postValidation";
-export * from "./commentValidation";

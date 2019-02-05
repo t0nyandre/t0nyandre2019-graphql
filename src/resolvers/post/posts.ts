@@ -1,4 +1,4 @@
-import { Post } from "../../models";
+import { Post } from "../../models/post";
 
 export default {
   Query: {

@@ -1,6 +1,6 @@
 import { SchemaDirectiveVisitor } from "apollo-server-express";
 import { defaultFieldResolver, GraphQLField } from "graphql";
-import { ensureLoggedIn } from "../auth";
+import { ensureLoggedIn } from "../utils/authChecker";
 
 export class IsAuthDirective extends SchemaDirectiveVisitor {
   visitFieldDefinition(field: GraphQLField<any, any>) {

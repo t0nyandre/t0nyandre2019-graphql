@@ -4,6 +4,5 @@ input PostInput {
     description: String!
     content: String
     status: PostStatus
-    commentable: Boolean
     category: String!
 }

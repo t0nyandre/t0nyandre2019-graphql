@@ -52,6 +52,7 @@ async function startServer() {
   server.applyMiddleware({
     app,
     cors: false,
+    path: "/",
   });
 
   const port = 4000;

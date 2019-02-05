@@ -1,12 +1,4 @@
 import { ConnectionOptions } from "typeorm";
-import {
-  User,
-  Post,
-  PostCategory,
-  Comment,
-  CommentScore,
-  Profile,
-} from "../src/models";
 // tslint:disable-next-line
 require("dotenv").config();
 
@@ -29,5 +21,5 @@ export const DefaultConnection = {
   synchronize: true,
   dropSchema: false,
   logging: true,
-  entities: [User, Post, PostCategory, Comment, CommentScore, Profile],
+  entities: [__dirname + "/../src/models/**/*.ts"],
 } as ConnectionOptions;

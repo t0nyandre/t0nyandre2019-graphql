@@ -1,14 +1,14 @@
 import { redis, confirmUserPrefix } from "../../../config/redis";
-import { User } from "../../models";
 import {
   invalidTokenError,
   accountAlreadyVerifiedError,
-} from "../../error-messages";
+} from "../../utils/errorMessages";
+import { User } from "../../models/user";
 
 export default {
   Mutation: {
     verify: async (_: any, { verifyData }: any, { req }: any) => {
-      const [[, id], [, ]] = await redis
+      const [[, id], [,]] = await redis
         .pipeline()
         .get(confirmUserPrefix + verifyData.token)
         .del(confirmUserPrefix + verifyData.token)

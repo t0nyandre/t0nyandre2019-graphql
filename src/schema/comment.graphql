@@ -1,9 +1,0 @@
-type Query {
-    comments(id: ID!): [Comment]
-}
-
-type Mutation {
-    createComment(commentData: CommentInput!): Comment @isAuth
-    upvote(id: Int!): Int! @isAuth
-    downvote(id: Int!): Int! @isAuth
-}

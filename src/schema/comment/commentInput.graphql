@@ -1,5 +1,0 @@
-input CommentInput {
-    content: String!
-    reply: Boolean!
-    id: ID!
-}

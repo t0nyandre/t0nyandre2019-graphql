@@ -11,11 +11,9 @@ type Post {
   description: String!
   content: String
   status: PostStatus
-  commentable: Boolean
   slug: String!
   author: User!
   category: PostCategory!
-  comments: [Comment]
   createdAt: DateTime!
   updatedAt: DateTime!
 }

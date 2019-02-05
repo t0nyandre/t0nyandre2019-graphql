@@ -1,4 +1,4 @@
-import { notLoggedInError, alreadyLoggedInError } from "./error-messages";
+import { notLoggedInError, alreadyLoggedInError } from "./errorMessages";
 
 const loggedIn = (req: any) => req.session.userId;
 

@@ -2,10 +2,10 @@ import * as cuid from "cuid";
 
 import { redis, confirmUserPrefix } from "../../../config/redis";
 import { Profile } from "../../models/profile";
-import { User } from "../../models";
-import { userValidation } from "../../validations";
-// import { verifyAccountMail } from "../mails/verifyAccountMail";
-// import { transporter } from "../../config/nodemailer";
+import { userValidation } from "../../utils/validations";
+import { User } from "../../models/user";
+import { verifyAccountMail } from "../../utils/mails";
+import { transporter } from "../../../config/nodemailer";
 
 export default {
   Mutation: {
@@ -25,9 +25,8 @@ export default {
       const token = cuid();
       redis.set(confirmUserPrefix + token, user.id, "EX", 60 * 60 * 24 * 2); // 2 days
 
-      // transporter.sendMail(verifyAccountMail(user.email, hashedId));
-      console.log(token); // don't want to be spamming my mail so logging the id needed to verify account onto the
-      // terminal.
+      transporter.sendMail(verifyAccountMail(user, token));
+      // console.log(token); // console log the token in dev mode
 
       return user;
     },

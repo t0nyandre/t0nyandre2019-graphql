@@ -1,5 +1,5 @@
-import { Post } from "../../models";
-import { postNotExist } from "../../error-messages";
+import { postNotExist } from "../../utils/errorMessages";
+import { Post } from "../../models/post";
 
 export default {
   Query: {

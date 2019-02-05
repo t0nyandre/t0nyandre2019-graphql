@@ -1,18 +1,20 @@
 import * as argon2 from "argon2";
 
 import { redis, changePasswordUserPrefix } from "../../../config/redis";
-import { User } from "../../models";
-import { changePasswordValidation } from "../../validations";
-import { invalidTokenError } from "../../error-messages";
+import { changePasswordValidation } from "../../utils/validations";
+import { invalidTokenError } from "../../utils/errorMessages";
+import { User } from "../../models/user";
 // import { forgotPasswordMail } from "../../mails";
 // import { transporter } from "../../../config/nodemailer";
 
 export default {
   Mutation: {
-    changePassword: async (_: any, { changeData }: any, { req}: any) => {
-      await changePasswordValidation.validate(changeData, { abortEarly: false });
+    changePassword: async (_: any, { changeData }: any, { req }: any) => {
+      await changePasswordValidation.validate(changeData, {
+        abortEarly: false,
+      });
 
-      const [[, id], [, ]] = await redis
+      const [[, id], [,]] = await redis
         .pipeline()
         .get(changePasswordUserPrefix + changeData.token)
         .del(changePasswordUserPrefix + changeData.token)

@@ -1,5 +1,5 @@
-import { postValidation } from "../../validations";
-import { Post } from "../../models";
+import { postValidation } from "../../utils/validations";
+import { Post } from "../../models/post";
 
 export default {
   Mutation: {

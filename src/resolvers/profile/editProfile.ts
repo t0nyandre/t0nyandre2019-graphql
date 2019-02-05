@@ -1,4 +1,5 @@
-import { User, Profile } from "../../models";
+import { User } from "../../models/user";
+import { Profile } from "../../models/profile";
 
 export default {
   Mutation: {
