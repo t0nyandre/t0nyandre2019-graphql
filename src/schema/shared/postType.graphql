@@ -1,16 +1,10 @@
-enum PostStatus {
-  PUBLISHED,
-  DRAFT,
-  ARCHIVED,
-}
-
 type Post {
   id: ID!
   image: String
   title: String!
   description: String!
   content: String
-  status: PostStatus
+  status: Int!
   slug: String!
   author: User!
   category: PostCategory!

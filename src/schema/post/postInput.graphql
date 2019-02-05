@@ -3,6 +3,6 @@ input PostInput {
     title: String!
     description: String!
     content: String
-    status: PostStatus
+    status: Int
     category: String!
 }

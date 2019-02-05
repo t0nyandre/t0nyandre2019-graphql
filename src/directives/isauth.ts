@@ -1,4 +1,4 @@
-import { SchemaDirectiveVisitor } from "apollo-server-express";
+import { SchemaDirectiveVisitor } from "graphql-tools";
 import { defaultFieldResolver, GraphQLField } from "graphql";
 import { ensureLoggedIn } from "../utils/authChecker";
 

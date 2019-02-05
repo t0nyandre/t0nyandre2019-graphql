@@ -29,7 +29,7 @@ export class User extends BaseEntity {
 
   @Column("varchar", { length: 160, unique: true }) username: string;
 
-  @Column({ type: "enum", enum: Roles, default: "USER" }) role: Roles;
+  @Column({ type: "enum", enum: Roles, default: Roles.USER }) role: Roles;
 
   @Column("varchar", { length: 255, unique: true }) email: string;
 

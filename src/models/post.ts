@@ -38,7 +38,7 @@ export class Post extends BaseEntity {
 
   @Column("varchar", { length: 150 }) slug: string;
 
-  @Column({ type: "enum", enum: PostStatus, default: "DRAFT" })
+  @Column({ type: "enum", enum: PostStatus, default: PostStatus.DRAFT })
   status: PostStatus;
 
   @ManyToOne(() => User, author => author.posts, { nullable: false })
